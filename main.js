@@ -73,6 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchend', onPointerUp);
   }
 
+  // --- Transformation Mode Switcher (Slider vs 3D Video) ---
+  const toggleSliderMode = document.getElementById('toggleSliderMode');
+  const toggleVideoMode = document.getElementById('toggleVideoMode');
+  const sliderContainer = document.getElementById('sliderContainer');
+  const videoContainer = document.getElementById('videoContainer');
+  const transformationVideo = document.getElementById('transformationVideo');
+
+  if (toggleSliderMode && toggleVideoMode && sliderContainer && videoContainer) {
+    toggleSliderMode.addEventListener('click', () => {
+      toggleSliderMode.classList.add('bg-brand-noir', 'text-brand-gold', 'shadow-md');
+      toggleSliderMode.classList.remove('bg-white', 'text-stone-600', 'border');
+
+      toggleVideoMode.classList.remove('bg-brand-noir', 'text-brand-gold', 'shadow-md');
+      toggleVideoMode.classList.add('bg-white', 'text-stone-600', 'border');
+
+      sliderContainer.classList.remove('hidden');
+      videoContainer.classList.add('hidden');
+      if (transformationVideo) transformationVideo.pause();
+    });
+
+    toggleVideoMode.addEventListener('click', () => {
+      toggleVideoMode.classList.add('bg-brand-noir', 'text-brand-gold', 'shadow-md');
+      toggleVideoMode.classList.remove('bg-white', 'text-stone-600', 'border');
+
+      toggleSliderMode.classList.remove('bg-brand-noir', 'text-brand-gold', 'shadow-md');
+      toggleSliderMode.classList.add('bg-white', 'text-stone-600', 'border');
+
+      sliderContainer.classList.add('hidden');
+      videoContainer.classList.remove('hidden');
+      if (transformationVideo) {
+        transformationVideo.currentTime = 0;
+        transformationVideo.play();
+      }
+    });
+  }
+
   // --- 3. Interactive 3-Step Cost Estimator ---
   let selectedBase = 650000;
   let selectedPropertyLabel = '2 BHK Flat';
