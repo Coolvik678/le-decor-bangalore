@@ -14,6 +14,87 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lucide.createIcons();
   }
 
+  // --- 0. Pinned Scroll Transformation Engine ---
+  const heroScrollSection = document.getElementById('heroScrollSection');
+  const heroWipeOverlay = document.getElementById('heroWipeOverlay');
+  const heroDividerLine = document.getElementById('heroDividerLine');
+  const heroProgressPercent = document.getElementById('heroProgressPercent');
+  const heroPhaseDot = document.getElementById('heroPhaseDot');
+  const heroPhaseText = document.getElementById('heroPhaseText');
+  const heroDynamicHeading = document.getElementById('heroDynamicHeading');
+  const heroDynamicSub = document.getElementById('heroDynamicSub');
+  const heroScrollPrompt = document.getElementById('heroScrollPrompt');
+
+  if (heroScrollSection && heroWipeOverlay && heroDividerLine) {
+    let currentProgress = 0;
+    let targetProgress = 0;
+    let lastPhase = -1;
+
+    const onScroll = () => {
+      const rect = heroScrollSection.getBoundingClientRect();
+      const totalScrollable = rect.height - window.innerHeight;
+      const scrolled = -rect.top;
+
+      let progress = scrolled / (totalScrollable > 0 ? totalScrollable : 1);
+      progress = Math.max(0, Math.min(progress, 1));
+      targetProgress = progress;
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+
+    // Smooth Lerp Render Loop (60fps)
+    const renderLoop = () => {
+      currentProgress += (targetProgress - currentProgress) * 0.12;
+
+      // Wipe from 100% (raw before) down to 0% (luxury after)
+      const wipePercent = Math.max(0, Math.min(100, (1 - currentProgress) * 100));
+
+      heroWipeOverlay.style.clipPath = `polygon(0 0, ${wipePercent}% 0, ${wipePercent}% 100%, 0 100%)`;
+      heroDividerLine.style.left = `${wipePercent}%`;
+
+      if (wipePercent <= 1.5 || wipePercent >= 98.5) {
+        heroDividerLine.style.opacity = '0';
+      } else {
+        heroDividerLine.style.opacity = '1';
+      }
+
+      const displayPct = Math.round(currentProgress * 100);
+      if (heroProgressPercent) heroProgressPercent.textContent = `${displayPct}%`;
+
+      // Phase Text & HUD Updates
+      let phase = currentProgress < 0.3 ? 0 : (currentProgress < 0.75 ? 1 : 2);
+      if (phase !== lastPhase) {
+        lastPhase = phase;
+        if (phase === 0) {
+          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
+          if (heroPhaseText) heroPhaseText.textContent = 'Phase 01: Raw Builder Handover';
+          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'From Raw Concrete to <span class="italic text-brand-gold">Bespoke Sanctuary</span>.';
+          if (heroDynamicSub) heroDynamicSub.textContent = 'Scroll down to watch how Le Decor transforms unfinished builder apartments into turnkey luxury residences in 45 days.';
+          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Scroll to Transform Space</span><i data-lucide="arrow-down" class="w-4 h-4 text-brand-gold"></i>';
+        } else if (phase === 1) {
+          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse';
+          if (heroPhaseText) heroPhaseText.textContent = 'Phase 02: In-House Joinery & Acoustic Paneling';
+          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'Precision Modular Engineering <span class="italic text-cyan-300">In Progress</span>.';
+          if (heroDynamicSub) heroDynamicSub.textContent = 'BWP grade marine plywood, concealed German hardware, and cove ambient lighting installed seamlessly.';
+          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Transforming Living Space...</span><i data-lucide="sparkles" class="w-4 h-4 text-brand-gold"></i>';
+        } else {
+          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          if (heroPhaseText) heroPhaseText.textContent = 'Phase 03: Turnkey Sanctuary Delivered';
+          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'Bespoke Luxury Living <span class="italic text-emerald-400">Delivered</span>.';
+          if (heroDynamicSub) heroDynamicSub.textContent = 'Move-in ready in 45 days. 10-year structural warranty with zero compromises.';
+          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Explore Pricing & Portfolio Below ↓</span>';
+        }
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      requestAnimationFrame(renderLoop);
+    };
+
+    renderLoop();
+  }
+
   // --- 1. Mobile Menu Toggle ---
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
