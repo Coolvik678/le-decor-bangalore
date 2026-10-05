@@ -1,0 +1,63 @@
+/* Custom Aesthetics & Interactivity for Le Decor Interior Design */
+
+@keyframes subtleZoom {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+.animate-subtle-zoom {
+  animation: subtleZoom 20s ease-in-out infinite;
+}
+
+/* Glassmorphism effects */
+.glass-nav {
+  background: rgba(249, 247, 242, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Before After Slider Styling */
+#sliderWrapper {
+  touch-action: none;
+}
+
+#beforeOverlay {
+  border-right: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+/* Smooth transitions */
+.portfolio-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Custom Selection Highlight */
+::selection {
+  background: #C5A880;
+  color: #181615;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F9F7F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A880;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A68760;
+}

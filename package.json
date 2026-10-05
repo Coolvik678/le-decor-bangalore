@@ -1,0 +1,17 @@
+{
+  "name": "le-decor-bangalore",
+  "version": "1.0.0",
+  "description": "Luxury high-converting website for Le Decor Interior Design Bangalore",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "keywords": [
+    "interior-design",
+    "bangalore",
+    "luxury-interiors",
+    "modular-kitchen"
+  ],
+  "author": "Le Decor Studio",
+  "license": "MIT"
+}
