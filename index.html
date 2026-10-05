@@ -13,7 +13,7 @@
   <!-- Google Fonts: Cormorant Garamond (Headings) + Plus Jakarta Sans (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -36,7 +36,8 @@
           },
           fontFamily: {
             serif: ['"Cormorant Garamond"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            script: ['"Caveat"', 'cursive']
           }
         }
       }
@@ -164,100 +165,116 @@
     </div>
   </header>
 
-  <!-- AWWWARDS PINNED SCROLL TRANSFORMATION HERO (300vh TRACK) -->
-  <section id="heroScrollSection" class="relative h-[280vh] bg-brand-noir">
-    <!-- STICKY VIEWPORT (LOCKED TO SCREEN) -->
-    <div id="heroStickyViewport" class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
+  <!-- CINEMATIC "SCROLL TO EXPLORE" HERO JOURNEY (MATCHING REFERENCE VIDEO) -->
+  <section id="heroJourneySection" class="relative h-[320vh] bg-brand-noir">
+    <!-- STICKY VIEWPORT (LOCKED FULLSCREEN) -->
+    <div id="heroStickyViewport" class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between select-none">
       
-      <!-- BACKGROUND LAYERS -->
+      <!-- BACKGROUND CAMERA LAYERS & VIDEO -->
       <div class="absolute inset-0 z-0">
-        <!-- Layer 1: The Finished Luxury Flat (Bottom) -->
-        <div class="absolute inset-0 w-full h-full">
-          <img src="assets/images/after-flat.jpg" alt="Finished Luxury Interior by Le Decor" class="w-full h-full object-cover object-center">
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-noir/90 via-brand-noir/30 to-brand-noir/60"></div>
+        <!-- Living 1080p Journey Video Loop -->
+        <video id="journeyBgVideo" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover object-center filter brightness-75 scale-105 transition-transform duration-700">
+          <source src="assets/videos/hero-journey.mp4" type="video/mp4">
+          <img src="assets/images/journey-blueprint.jpg" alt="Luxury Architectural Concept" class="w-full h-full object-cover">
+        </video>
+
+        <!-- Dynamic Architectural Wireframe Layer (Stage 1) -->
+        <div id="journeyLayer1" class="absolute inset-0 w-full h-full transition-opacity duration-700 opacity-100 pointer-events-none">
+          <img src="assets/images/journey-blueprint.jpg" alt="Blueprint Architectural Concept" class="w-full h-full object-cover object-center brightness-70">
         </div>
 
-        <!-- Layer 2: The Raw Unfinished Builder Flat (Clipped Top Layer) -->
-        <div id="heroWipeOverlay" class="absolute inset-0 w-full h-full will-change-[clip-path]" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);">
-          <img src="assets/images/before-flat.jpg" alt="Bare Concrete Apartment Before Renovation" class="w-full h-full object-cover object-center brightness-90">
-          <div class="absolute inset-0 bg-gradient-to-t from-brand-noir/90 via-brand-noir/40 to-brand-noir/60"></div>
+        <!-- Procurement & Carpentry Layer (Stage 2) -->
+        <div id="journeyLayer2" class="absolute inset-0 w-full h-full transition-opacity duration-700 opacity-0 pointer-events-none">
+          <img src="assets/images/journey-procurement.jpg" alt="Precision On-Site Procurement and Carpentry" class="w-full h-full object-cover object-center brightness-70">
         </div>
 
-        <!-- Glowing Transformation Divider Line -->
-        <div id="heroDividerLine" class="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-brand-gold to-transparent shadow-[0_0_25px_#C5A880] pointer-events-none transition-opacity duration-300" style="left: 100%;">
-          <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 bg-brand-noir/90 text-brand-gold border border-brand-gold/60 text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full whitespace-nowrap shadow-2xl backdrop-blur-md flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-3 h-3 text-brand-gold animate-spin"></i>
-            <span>Transforming</span>
+        <!-- Final Sanctuary Living Room Layer (Stage 3) -->
+        <div id="journeyLayer3" class="absolute inset-0 w-full h-full transition-opacity duration-700 opacity-0 pointer-events-none">
+          <img src="assets/images/hero-living.jpg" alt="Turnkey Luxury Penthouse Living Room" class="w-full h-full object-cover object-center brightness-70">
+        </div>
+
+        <!-- Cinematic Gradient Vignettes -->
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-noir via-transparent to-brand-noir/70 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-brand-noir/60 pointer-events-none"></div>
+      </div>
+
+      <!-- CENTER COMPASS RETICLE (EXACT REFERENCE VIDEO ICON) -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+        <div id="centerReticle" class="flex flex-col items-center gap-2.5 transition-all duration-300 transform">
+          <div class="w-14 h-14 rounded-full border border-white/50 bg-black/30 backdrop-blur-md flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+            <i data-lucide="compass" class="w-6 h-6 text-brand-gold animate-spin" style="animation-duration: 15s;"></i>
           </div>
+          <span class="text-[10px] font-mono tracking-[0.35em] uppercase text-stone-200 drop-shadow font-semibold">SCROLL TO EXPLORE</span>
         </div>
       </div>
 
-      <!-- TOP FLOATING HUD STRIP -->
-      <div class="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 flex items-center justify-between">
-        <!-- Live State Pill -->
-        <div id="heroPhasePill" class="inline-flex items-center gap-2 bg-brand-noir/80 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-stone-200 shadow-xl">
-          <span id="heroPhaseDot" class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-          <span id="heroPhaseText">Phase 01: Raw Builder Handover</span>
-        </div>
-
-        <!-- Scroll Percentage Meter -->
-        <div class="bg-brand-noir/80 backdrop-blur-md border border-white/20 px-4 py-1.5 rounded-full text-xs font-mono font-bold text-brand-gold tracking-widest shadow-xl flex items-center gap-2">
-          <span>PROGRESS:</span>
-          <span id="heroProgressPercent">0%</span>
-        </div>
-      </div>
-
-      <!-- CENTER CONTENT CLUSTER -->
-      <div class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center my-auto">
-        <!-- Google Review Badge -->
-        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1 rounded-full mb-6 text-[11px] font-semibold uppercase tracking-wider text-stone-200">
-          <div class="flex text-amber-400">
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-          </div>
-          <span>4.9★ Google Rating • 22 Verified Bangalore Reviews</span>
-        </div>
-
-        <h1 id="heroDynamicHeading" class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.05] text-white font-normal drop-shadow-lg transition-all duration-300">
-          From Raw Concrete to <span class="italic text-brand-gold">Bespoke Sanctuary</span>.
-        </h1>
-
-        <p id="heroDynamicSub" class="mt-4 sm:mt-6 text-sm sm:text-lg text-stone-300 max-w-2xl mx-auto font-light leading-relaxed drop-shadow">
-          Scroll down to watch how Le Decor transforms unfinished builder apartments into turnkey luxury residences in 45 days.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
-          <a href="#calculator" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-brand-gold hover:bg-brand-goldHover text-brand-noir font-bold text-xs tracking-widest uppercase transition-all shadow-2xl flex items-center justify-center gap-2">
-            <i data-lucide="calculator" class="w-4 h-4"></i>
-            <span>Calculate Interior Cost</span>
-          </a>
-          <a href="https://wa.me/919663522917?text=Hi%20Taj%2C%20I%20saw%20Le%20Decor%20interiors%20and%20would%20love%20a%20free%20design%20consultation." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-md font-semibold text-xs tracking-widest uppercase transition-all flex items-center justify-center gap-2">
-            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
-            <span>WhatsApp Taj</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- BOTTOM HUD INDICATOR -->
-      <div class="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-8 flex items-center justify-between text-xs text-stone-400">
+      <!-- TOP FLOATING BRAND STRIP -->
+      <div class="relative z-20 max-w-7xl mx-auto w-full px-6 lg:px-12 pt-8 flex items-center justify-between pointer-events-auto">
         <div class="flex items-center gap-3">
-          <span class="text-brand-gold font-semibold uppercase tracking-wider">Turnkey Handover:</span>
-          <span class="text-stone-300">Strict 45-Day Guarantee</span>
+          <div class="w-9 h-9 rounded-full border border-brand-gold bg-brand-noir flex items-center justify-center text-brand-gold font-serif text-lg font-bold">
+            LD
+          </div>
+          <div>
+            <span class="font-serif text-xl tracking-wider text-white font-bold uppercase block leading-none">Le Decor</span>
+            <span class="text-[9px] tracking-[0.25em] text-brand-gold uppercase block mt-0.5">Bangalore • Est. 2019</span>
+          </div>
         </div>
 
-        <div id="heroScrollPrompt" class="flex items-center gap-2 text-stone-300 uppercase tracking-widest text-[11px] font-semibold animate-bounce">
-          <span>Scroll to Transform Home</span>
-          <i data-lucide="arrow-down" class="w-4 h-4 text-brand-gold"></i>
+        <div class="flex items-center gap-4">
+          <div class="hidden sm:inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 rounded-full text-xs text-stone-200 font-semibold uppercase tracking-wider">
+            <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
+            <span>4.9★ Rated (22 Reviews)</span>
+          </div>
+          <a href="#calculator" class="px-5 py-2 rounded-full bg-brand-gold hover:bg-brand-goldHover text-brand-noir font-bold text-xs uppercase tracking-wider transition-all shadow-lg">
+            Estimate Project
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTTOM EDITORIAL STORYTELLING & BADGES (MATCHING REFERENCE VIDEO) -->
+      <div class="relative z-20 max-w-7xl mx-auto w-full px-6 lg:px-12 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-8 pointer-events-auto">
+        <!-- Left: Editorial Story Block with Script Cursive Accent -->
+        <div class="max-w-xl text-left">
+          <div id="journeyScriptAccent" class="font-script text-3xl sm:text-4xl lg:text-5xl text-brand-gold mb-1 drop-shadow transition-all duration-300">
+            from concept...
+          </div>
+          <h1 id="journeyTitle" class="font-serif text-3xl sm:text-5xl lg:text-6xl text-white font-normal tracking-tight leading-[1.08] drop-shadow-md transition-all duration-300">
+            We build sensational spaces.
+          </h1>
+          <p id="journeyParagraph" class="mt-3 text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-lg drop-shadow transition-all duration-300">
+            We are your design partner and owner's representative from day thirty-one with a deep understanding of architecture, space planning, and budget transparency.
+          </p>
+          <div class="mt-6 flex items-center gap-3">
+            <a href="#calculator" class="px-6 py-3 rounded-full bg-brand-gold hover:bg-brand-goldHover text-brand-noir font-bold text-xs uppercase tracking-wider transition-all shadow-xl">
+              Calculate Cost
+            </a>
+            <a href="https://wa.me/919663522917?text=Hi%20Taj%2C%20I%20saw%20Le%20Decor%20website%20and%20want%20to%20explore%20an%20interior%20project." target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2">
+              <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
+              <span>WhatsApp Taj</span>
+            </a>
+          </div>
         </div>
 
-        <div class="hidden sm:flex items-center gap-3">
-          <span class="text-brand-gold font-semibold uppercase tracking-wider">Bangalore:</span>
-          <span class="text-stone-300">Indiranagar • Koramangala • Whitefield</span>
+        <!-- Right: Badges & Timeline Step Indicator -->
+        <div class="flex flex-col items-start md:items-end gap-3 text-left md:text-right">
+          <div id="journeyBadge1" class="px-4 py-2 rounded-full bg-brand-noir/70 backdrop-blur-md border border-white/15 text-xs text-stone-300 tracking-wider uppercase font-medium">
+            Full service beyond interior design.
+          </div>
+          <div id="journeyBadge2" class="px-4 py-2 rounded-full bg-brand-noir/70 backdrop-blur-md border border-brand-gold/40 text-xs text-brand-gold tracking-wider uppercase font-bold flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>45-Day Handover Guaranteed</span>
+          </div>
+          <!-- Stage Indicator Pill -->
+          <div class="mt-2 text-xs font-mono tracking-widest text-stone-400 uppercase">
+            <span>JOURNEY: </span>
+            <span id="journeyStageNum" class="text-brand-gold font-bold">01 / 03 CONCEPT</span>
+          </div>
         </div>
+      </div>
+
+      <!-- HORIZONTAL TIMELINE SCRUBBER (EXACT REFERENCE VIDEO SCRUB BAR) -->
+      <div class="absolute bottom-0 left-0 right-0 z-30 h-1 bg-white/15">
+        <div id="journeyScrubProgress" class="h-full bg-brand-gold transition-all duration-75 shadow-[0_0_10px_#C5A880]" style="width: 0%;"></div>
       </div>
     </div>
   </section>

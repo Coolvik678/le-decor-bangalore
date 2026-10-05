@@ -14,24 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lucide.createIcons();
   }
 
-  // --- 0. Pinned Scroll Transformation Engine ---
-  const heroScrollSection = document.getElementById('heroScrollSection');
-  const heroWipeOverlay = document.getElementById('heroWipeOverlay');
-  const heroDividerLine = document.getElementById('heroDividerLine');
-  const heroProgressPercent = document.getElementById('heroProgressPercent');
-  const heroPhaseDot = document.getElementById('heroPhaseDot');
-  const heroPhaseText = document.getElementById('heroPhaseText');
-  const heroDynamicHeading = document.getElementById('heroDynamicHeading');
-  const heroDynamicSub = document.getElementById('heroDynamicSub');
-  const heroScrollPrompt = document.getElementById('heroScrollPrompt');
+  // --- 0. Cinematic "Scroll To Explore" Journey Engine (Reference Video Standard) ---
+  const heroJourneySection = document.getElementById('heroJourneySection');
+  const journeyLayer1 = document.getElementById('journeyLayer1');
+  const journeyLayer2 = document.getElementById('journeyLayer2');
+  const journeyLayer3 = document.getElementById('journeyLayer3');
+  const centerReticle = document.getElementById('centerReticle');
+  const journeyScriptAccent = document.getElementById('journeyScriptAccent');
+  const journeyTitle = document.getElementById('journeyTitle');
+  const journeyParagraph = document.getElementById('journeyParagraph');
+  const journeyStageNum = document.getElementById('journeyStageNum');
+  const journeyScrubProgress = document.getElementById('journeyScrubProgress');
 
-  if (heroScrollSection && heroWipeOverlay && heroDividerLine) {
+  if (heroJourneySection && journeyLayer1 && journeyLayer2 && journeyLayer3) {
     let currentProgress = 0;
     let targetProgress = 0;
-    let lastPhase = -1;
+    let lastStage = -1;
 
     const onScroll = () => {
-      const rect = heroScrollSection.getBoundingClientRect();
+      const rect = heroJourneySection.getBoundingClientRect();
       const totalScrollable = rect.height - window.innerHeight;
       const scrolled = -rect.top;
 
@@ -44,49 +45,73 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', onScroll, { passive: true });
     onScroll();
 
-    // Smooth Lerp Render Loop (60fps)
+    // 60fps Smooth Lerp Render Loop
     const renderLoop = () => {
       currentProgress += (targetProgress - currentProgress) * 0.12;
 
-      // Wipe from 100% (raw before) down to 0% (luxury after)
-      const wipePercent = Math.max(0, Math.min(100, (1 - currentProgress) * 100));
-
-      heroWipeOverlay.style.clipPath = `polygon(0 0, ${wipePercent}% 0, ${wipePercent}% 100%, 0 100%)`;
-      heroDividerLine.style.left = `${wipePercent}%`;
-
-      if (wipePercent <= 1.5 || wipePercent >= 98.5) {
-        heroDividerLine.style.opacity = '0';
-      } else {
-        heroDividerLine.style.opacity = '1';
+      // Scrub bar width
+      if (journeyScrubProgress) {
+        journeyScrubProgress.style.width = `${currentProgress * 100}%`;
       }
 
-      const displayPct = Math.round(currentProgress * 100);
-      if (heroProgressPercent) heroProgressPercent.textContent = `${displayPct}%`;
+      // Layer Crossfades & 3D Camera Depth Scale
+      if (currentProgress < 0.35) {
+        // Stage 1: Blueprint Concept
+        journeyLayer1.style.opacity = '1';
+        journeyLayer2.style.opacity = '0';
+        journeyLayer3.style.opacity = '0';
+        const scale = 1.0 + (currentProgress / 0.35) * 0.08;
+        journeyLayer1.style.transform = `scale(${scale})`;
+      } else if (currentProgress < 0.70) {
+        // Stage 2: Procurement & Craft
+        const sub = (currentProgress - 0.35) / 0.35;
+        journeyLayer1.style.opacity = `${Math.max(0, 1 - sub * 2)}`;
+        journeyLayer2.style.opacity = '1';
+        journeyLayer3.style.opacity = '0';
+        const scale = 1.0 + sub * 0.08;
+        journeyLayer2.style.transform = `scale(${scale})`;
+      } else {
+        // Stage 3: Inside Sanctuary Penthouse
+        const sub = (currentProgress - 0.70) / 0.30;
+        journeyLayer1.style.opacity = '0';
+        journeyLayer2.style.opacity = `${Math.max(0, 1 - sub * 2)}`;
+        journeyLayer3.style.opacity = '1';
+        const scale = 1.0 + sub * 0.06;
+        journeyLayer3.style.transform = `scale(${scale})`;
+      }
 
-      // Phase Text & HUD Updates
-      let phase = currentProgress < 0.3 ? 0 : (currentProgress < 0.75 ? 1 : 2);
-      if (phase !== lastPhase) {
-        lastPhase = phase;
-        if (phase === 0) {
-          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse';
-          if (heroPhaseText) heroPhaseText.textContent = 'Phase 01: Raw Builder Handover';
-          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'From Raw Concrete to <span class="italic text-brand-gold">Bespoke Sanctuary</span>.';
-          if (heroDynamicSub) heroDynamicSub.textContent = 'Scroll down to watch how Le Decor transforms unfinished builder apartments into turnkey luxury residences in 45 days.';
-          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Scroll to Transform Space</span><i data-lucide="arrow-down" class="w-4 h-4 text-brand-gold"></i>';
-        } else if (phase === 1) {
-          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse';
-          if (heroPhaseText) heroPhaseText.textContent = 'Phase 02: In-House Joinery & Acoustic Paneling';
-          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'Precision Modular Engineering <span class="italic text-cyan-300">In Progress</span>.';
-          if (heroDynamicSub) heroDynamicSub.textContent = 'BWP grade marine plywood, concealed German hardware, and cove ambient lighting installed seamlessly.';
-          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Transforming Living Space...</span><i data-lucide="sparkles" class="w-4 h-4 text-brand-gold"></i>';
+      // Center Reticle Interaction
+      if (centerReticle) {
+        if (currentProgress > 0.88) {
+          centerReticle.style.opacity = '0';
+          centerReticle.style.transform = 'scale(0.8)';
         } else {
-          if (heroPhaseDot) heroPhaseDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
-          if (heroPhaseText) heroPhaseText.textContent = 'Phase 03: Turnkey Sanctuary Delivered';
-          if (heroDynamicHeading) heroDynamicHeading.innerHTML = 'Bespoke Luxury Living <span class="italic text-emerald-400">Delivered</span>.';
-          if (heroDynamicSub) heroDynamicSub.textContent = 'Move-in ready in 45 days. 10-year structural warranty with zero compromises.';
-          if (heroScrollPrompt) heroScrollPrompt.innerHTML = '<span>Explore Pricing & Portfolio Below ↓</span>';
+          centerReticle.style.opacity = '1';
+          const pulseScale = 1.0 + Math.sin(Date.now() / 400) * 0.05;
+          centerReticle.style.transform = `scale(${pulseScale})`;
         }
-        if (window.lucide) window.lucide.createIcons();
+      }
+
+      // Editorial Story Shifts
+      let stage = currentProgress < 0.35 ? 1 : (currentProgress < 0.70 ? 2 : 3);
+      if (stage !== lastStage) {
+        lastStage = stage;
+        if (stage === 1) {
+          if (journeyScriptAccent) journeyScriptAccent.textContent = 'from concept...';
+          if (journeyTitle) journeyTitle.textContent = 'We build sensational spaces.';
+          if (journeyParagraph) journeyParagraph.textContent = "We are your design partner and owner's representative from day thirty-one with a deep understanding of architecture, space planning, and budget transparency.";
+          if (journeyStageNum) journeyStageNum.textContent = '01 / 03 CONCEPT';
+        } else if (stage === 2) {
+          if (journeyScriptAccent) journeyScriptAccent.textContent = 'to procurement...';
+          if (journeyTitle) journeyTitle.textContent = 'We source the finest materials.';
+          if (journeyParagraph) journeyParagraph.textContent = 'From imported Italian Calacatta marble to bespoke vertical fluted oak acoustic paneling and German concealed hardware — zero compromises on craft.';
+          if (journeyStageNum) journeyStageNum.textContent = '02 / 03 PROCUREMENT';
+        } else {
+          if (journeyScriptAccent) journeyScriptAccent.textContent = 'into your sanctuary...';
+          if (journeyTitle) journeyTitle.textContent = 'Turnkey Luxury Delivered.';
+          if (journeyParagraph) journeyParagraph.textContent = 'Complete, move-in-ready residences in Bangalore delivered on a strict 45-day timeline with a written 10-year structural warranty.';
+          if (journeyStageNum) journeyStageNum.textContent = '03 / 03 SANCTUARY';
+        }
       }
 
       requestAnimationFrame(renderLoop);
