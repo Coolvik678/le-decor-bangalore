@@ -114,6 +114,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      // Slide-in mainNav Header on completion
+      const mainNav = document.getElementById('mainNav');
+      if (mainNav) {
+        if (currentProgress > 0.88) {
+          mainNav.classList.remove('-translate-y-full');
+        } else {
+          mainNav.classList.add('-translate-y-full');
+        }
+      }
+
       requestAnimationFrame(renderLoop);
     };
 
